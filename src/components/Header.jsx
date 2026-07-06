@@ -87,29 +87,11 @@ export default function Header() {
               </li>
               <li>
                 <Link
-                  to="/blogs"
-                  onClick={() => handleLinkClick("/blogs")}
-                  className={activeLink === "/blogs" ? "active" : ""}
-                >
-                  Blogs
-                </Link>
-              </li>
-              <li>
-                <Link
                   to="/gallery"
                   onClick={() => handleLinkClick("/gallery")}
                   className={activeLink === "/gallery" ? "active" : ""}
                 >
                   Gallery
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/shop"
-                  onClick={() => handleLinkClick("/shop")}
-                  className={activeLink === "/shop" ? "active" : ""}
-                >
-                  Shop
                 </Link>
               </li>
               <li>
@@ -176,29 +158,11 @@ export default function Header() {
               </li>
               <li>
                 <Link
-                  to="/blogs"
-                  onClick={() => handleLinkClick("/blogs")}
-                  className={activeLink === "/blogs" ? "active" : ""}
-                >
-                  Blogs
-                </Link>
-              </li>
-              <li>
-                <Link
                   to="/gallery"
                   onClick={() => handleLinkClick("/gallery")}
                   className={activeLink === "/gallery" ? "active" : ""}
                 >
                   Gallery
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/shop"
-                  onClick={() => handleLinkClick("/shop")}
-                  className={activeLink === "/shop" ? "active" : ""}
-                >
-                  Shop
                 </Link>
               </li>
               <li>

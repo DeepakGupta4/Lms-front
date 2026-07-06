@@ -135,10 +135,10 @@ export default function gallery() {
                 </a>
               </div>
               <div className="rightimgsec">
-                <img src="assets/g.JPG" alt="" />
+                <img src="/assets/g.JPG" alt="" />
                 <div className="r_img_top">
-                  <img src="../assets/c.JPG" alt="" />
-                  <img src="../assets/e.JPG" alt="" />
+                  <img src="/assets/c.JPG" alt="" />
+                  <img src="/assets/e.JPG" alt="" />
                 </div>
               </div>
             </div>

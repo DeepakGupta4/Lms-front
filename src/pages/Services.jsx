@@ -65,7 +65,7 @@ const Services = () => {
                                 <span>02</span>
                                 <div>
                                     <h2>Web Develpment</h2>
-                                    <img src="/public/website_icon.svg" alt="Web Development Icon" />
+                                    <img src="/website_icon.svg" alt="Web Development Icon" />
                                 </div>
                                 <ul>
                                     <li>Prefomance & Load Time</li>
@@ -136,7 +136,7 @@ const Services = () => {
                                 <span>04</span>
                                 <div>
                                     <h2>Video Editing</h2>
-                                    <img src="/public/editing.svg" alt="Video Editing Icon" />
+                                    <img src="/editing.svg" alt="Video Editing Icon" />
                                 </div>
                                 <ul>
                                     <li>Seamless performance and efficient rendering</li>
@@ -155,7 +155,7 @@ const Services = () => {
                 <div className="pricingplansec">
                     <div className="container">
                         <div className="pricingtitles text-center">
-                            <h3><img src="/public/chevron_right.png" alt="" /> PRICING PLAN</h3>
+                            <h3><img src="/chevron_right.png" alt="" /> PRICING PLAN</h3>
                             <h2>Pricing My Work</h2>
                         </div>
                         <div className="pricingcards">

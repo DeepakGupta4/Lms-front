@@ -1,68 +1,58 @@
-// components/Preloader.js
-
-import { useEffect } from "react";
+// components/Preloader.jsx
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
-const Preloader = ({ isLoading }) => {
-    useEffect(() => {
-        if (!isLoading) {
-            const svg = document.getElementById("preloaderSvg");
-            const svgText = document.querySelector(".hero-section .intro_text svg text");
-            const tl = gsap.timeline({
-                onComplete: startStrokeAnimation,
-            });
-            const curve = "M0 502S175 272 500 272s500 230 500 230V0H0Z";
-            const flat = "M0 2S175 1 500 1s500 1 500 1V0H0Z";
+const Preloader = ({ onFinish }) => {
+  const rootRef = useRef(null);
+  const svgRef = useRef(null);
 
-            tl.to(".preloader-heading .load-text , .preloader-heading , .preloader-heading::before ,.cont", {
-                delay: 2.0,
-                y: -100,
-                opacity: 0,
-            });
-            tl.to(svg, {
-                duration: 0.5,
-                attr: { d: curve },
-                ease: "power2.easeIn",
-            }).to(svg, {
-                duration: 0.5,
-                attr: { d: flat },
-                ease: "power2.easeOut",
-            });
-            tl.to(".preloader", {
-                y: -1500,
-            });
-            tl.to(".preloader", {
-                zIndex: -1,
-                display: "none",
-            });
+  useEffect(() => {
+    const curve = "M0 502S175 272 500 272s500 230 500 230V0H0Z";
+    const flat = "M0 2S175 1 500 1s500 1 500 1V0H0Z";
 
-            function startStrokeAnimation() {
-                if (svgText) {
-                    svgText.classList.add("animate-stroke");
-                }
-            }
-        }
-    }, [isLoading]);
+    const tl = gsap.timeline({
+      onComplete: () => onFinish && onFinish(),
+    });
 
-    return (
-     
-        <div className={`preloader ${isLoading ? '' : 'hidden'}`}>
-            <svg viewBox="0 0 1000 1000" preserveAspectRatio="none">
-                <path id="preloaderSvg" d="M0,1005S175,995,500,995s500,5,500,5V0H0Z"></path>
-            </svg>
+    // Show the animated name, then curtain-up to reveal the page beneath.
+    tl.to(".preloader-heading .load-text span", {
+      delay: 1.6,
+      y: -60,
+      opacity: 0,
+      stagger: 0.05,
+      duration: 0.4,
+      ease: "power2.in",
+    })
+      .to(svgRef.current, { duration: 0.5, attr: { d: curve }, ease: "power2.in" })
+      .to(svgRef.current, { duration: 0.5, attr: { d: flat }, ease: "power2.out" })
+      .to(rootRef.current, { y: "-100vh", duration: 0.7, ease: "power2.inOut" }, "-=0.15");
 
-            <div className="preloader-heading">
-                <div className="load-text">
-                    <span>D</span>
-                    <span>E</span>
-                    <span>E</span>
-                    <span>P</span>
-                    <span>A</span>
-                    <span>K</span>
-                </div>
-            </div>
+    return () => tl.kill();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <div className="preloader" ref={rootRef}>
+      <svg viewBox="0 0 1000 1000" preserveAspectRatio="none">
+        <path
+          ref={svgRef}
+          id="preloaderSvg"
+          d="M0,1005S175,995,500,995s500,5,500,5V0H0Z"
+        ></path>
+      </svg>
+
+      <div className="preloader-heading">
+        <div className="load-text">
+          <span>D</span>
+          <span>E</span>
+          <span>E</span>
+          <span>P</span>
+          <span>A</span>
+          <span>K</span>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default Preloader;

@@ -13,17 +13,10 @@ export default function Footer() {
         </div>
 
         <ul className="ul flex gap-2">
-          {/* <li><a href="/services">Services</a></li>
-          <li><a href="/projects">Works</a></li>
-          <li><a href="/">Resume</a></li>
-          <li><a href="/shop">Shop</a></li>
-          <li><a href="/blogs">Blogs</a></li>
-          <li><a href="/contact">Contact</a></li> */}
           <Link to={"/services"}>Services</Link>
           <Link to={"/projects"}>Projects</Link>
-          <Link to={"/"}>Resume</Link>
-          <Link to={"/shop"}>Shop</Link>
-          <Link to={"/blogs"}>Blogs</Link>
+          <a href="/Deepak Gupta Resume.pdf" download>Resume</a>
+          <Link to={"/gallery"}>Gallery</Link>
           <Link to={"/contact"}>Contact</Link>
         </ul>
 
