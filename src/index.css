@@ -6303,3 +6303,345 @@ header.sticky {
     height: 46px;
   }
 }
+
+/* ============================================================
+   CINEMATIC CURTAIN-REVEAL HERO (banner opens on scroll)
+   ============================================================ */
+.reveal {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  background: #0b0710;
+}
+
+/* pinned by GSAP ScrollTrigger (CSS sticky breaks under body{overflow-x:hidden}) */
+.reveal__sticky {
+  position: absolute;
+  inset: 0;
+  background: #0b0710;
+}
+
+/* --- hero shown behind the curtains --- */
+.reveal__stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  will-change: transform;
+}
+
+.reveal__stage .container {
+  width: 100%;
+  min-width: 0;
+  padding-left: 28px;
+  padding-right: 28px;
+}
+
+.reveal__glow {
+  position: absolute;
+  top: 18%;
+  left: 42%;
+  width: 640px;
+  height: 640px;
+  max-width: 88%;
+  background:
+    radial-gradient(closest-side, rgba(149, 0, 255, 0.35), transparent 70%),
+    radial-gradient(closest-side, rgba(79, 172, 254, 0.28), transparent 70%);
+  background-position: 20% 30%, 82% 72%;
+  background-repeat: no-repeat;
+  filter: blur(70px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.reveal__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: center;
+  gap: 3rem;
+  max-width: 100%;
+}
+
+/* Prevent grid/flex children from forcing horizontal overflow */
+.reveal__grid > * {
+  min-width: 0;
+}
+
+.reveal__text .hero_headline,
+.reveal__text .hero_sub {
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+.reveal__text {
+  text-align: left;
+}
+
+.reveal__text .hero_proof,
+.reveal__text .hero_cta {
+  justify-content: flex-start;
+}
+
+.reveal__text .hero_headline {
+  font-size: clamp(2rem, 3.8vw, 3.5rem);
+}
+
+.reveal__text .hero_sub {
+  margin-top: 0.2rem;
+  max-width: 520px;
+}
+
+.hero_social--left {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-start;
+  margin-top: 1.3rem;
+  padding: 0;
+  list-style: none;
+}
+
+/* --- portrait + app icons visual --- */
+.reveal__visual {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.reveal__photo {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  aspect-ratio: 4 / 5;
+  border-radius: 26px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+}
+
+.reveal__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.reveal__photo-badge {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(12, 8, 20, 0.72);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.reveal__photo-badge-num {
+  font-size: 26px;
+  font-weight: 800;
+  background: linear-gradient(100deg, #9500ff, #4facfe);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.reveal__apps {
+  display: flex;
+  gap: 12px;
+}
+
+.reveal__appchip img {
+  width: 50px;
+  height: 50px;
+  border-radius: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease;
+}
+
+.reveal__appchip:hover img {
+  transform: translateY(-5px) scale(1.08);
+}
+
+/* --- the curtains (banner that opens) --- */
+.curtain {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(180deg, #150b24 0%, #0b0710 100%);
+  will-change: transform;
+}
+
+.curtain--top {
+  top: 0;
+  align-items: flex-end;
+  border-bottom: 1px solid rgba(149, 0, 255, 0.28);
+}
+
+.curtain--bottom {
+  bottom: 0;
+  align-items: flex-start;
+  background: linear-gradient(0deg, #150b24 0%, #0b0710 100%);
+}
+
+.curtain__name {
+  font-size: clamp(2.4rem, 9vw, 7rem);
+  font-weight: 800;
+  letter-spacing: -2px;
+  padding-bottom: 0.12em;
+  background: linear-gradient(100deg, #ffffff, #b79cff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.curtain__role {
+  font-size: clamp(0.85rem, 1.8vw, 1.3rem);
+  font-weight: 500;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #8a7bb8;
+  padding-top: 1.3em;
+}
+
+.reveal__hint {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #cbb6ff;
+}
+
+.reveal__hint-arrow {
+  font-size: 18px;
+  animation: hintBounce 1.6s infinite;
+}
+
+@keyframes hintBounce {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(6px); opacity: 0.4; }
+}
+
+/* Stats band below the hero */
+.statsband {
+  background: #0b0710;
+  padding: 30px 1rem 90px;
+}
+
+.dark .statsband {
+  background: var(--week-white);
+}
+
+/* Light-theme overrides for the reveal */
+.dark .reveal,
+.dark .reveal__sticky {
+  background: var(--week-white);
+}
+
+.dark .curtain {
+  background: linear-gradient(180deg, #efeaf9, var(--week-white));
+}
+
+.dark .curtain--bottom {
+  background: linear-gradient(0deg, #efeaf9, var(--week-white));
+}
+
+.dark .curtain__name {
+  background: linear-gradient(100deg, #1a1030, #7a2bd6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dark .reveal__text .hero_headline,
+.dark .reveal__text .hero_typed {
+  color: #16121f;
+}
+
+/* Mobile: disable the pin/curtains, show hero normally */
+@media screen and (max-width: 767px) {
+  .reveal {
+    height: auto;
+  }
+  .reveal__sticky {
+    position: static;
+    height: auto;
+    min-height: 100vh;
+    padding: 120px 0 50px;
+  }
+  .curtain,
+  .reveal__hint {
+    display: none;
+  }
+  .reveal__stage {
+    position: relative;
+    display: block;
+  }
+  .reveal__grid {
+    grid-template-columns: 1fr;
+    gap: 2.2rem;
+    text-align: center;
+  }
+  .reveal__text {
+    text-align: center;
+  }
+  .reveal__text .hero_headline {
+    font-size: clamp(1.7rem, 8vw, 2.3rem);
+    letter-spacing: -0.5px;
+  }
+  .reveal__text .hero_sub {
+    font-size: 0.95rem;
+    margin: 0.2rem auto 0;
+  }
+  .reveal__text .hero_proof {
+    font-size: 12.5px;
+  }
+  .reveal__text .hero_proof,
+  .reveal__text .hero_cta,
+  .hero_social--left {
+    justify-content: center;
+  }
+  .reveal__photo {
+    margin: 0 auto;
+    max-width: 280px;
+  }
+  .statsband {
+    padding: 20px 1rem 60px;
+  }
+  .statsband .funfect_area {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.8rem 1.2rem;
+  }
+  .statsband .funfect_item {
+    width: 44%;
+    margin: 0;
+    justify-content: center;
+    text-align: center;
+  }
+}

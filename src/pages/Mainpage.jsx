@@ -124,76 +124,125 @@ export default function Home() {
     return () => clearTimeout(timeout);
   }, [charIndex, isDeleting, textIndex, pause]);
 
-  // Scroll-driven parallax: the hero portrait drifts up for a subtle depth effect.
+  // Cinematic curtain reveal: the banner splits open on scroll to reveal the hero.
+  // Desktop only (pinned scrub); on mobile the hero just shows normally.
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
-    const ctx = gsap.context(() => {
-      gsap.to(".hero_glow", {
-        yPercent: 30,
-        ease: "none",
+    const mm = gsap.matchMedia();
+
+    mm.add("(min-width: 768px)", () => {
+      const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: ".hero",
+          trigger: ".reveal",
           start: "top top",
-          end: "bottom top",
-          scrub: 0.6,
+          end: "+=130%",
+          scrub: 1,
+          pin: true,
+          anticipatePin: 1,
         },
       });
+
+      tl.to(".reveal__hint", { opacity: 0, duration: 0.15 }, 0)
+        .to(".curtain--top", { yPercent: -100, ease: "power2.inOut", duration: 0.6 }, 0)
+        .to(".curtain--bottom", { yPercent: 100, ease: "power2.inOut", duration: 0.6 }, 0)
+        .fromTo(".reveal__stage", { scale: 1.12 }, { scale: 1, ease: "none", duration: 0.6 }, 0)
+        .to({}, { duration: 0.4 }); // hold fully-open before the section ends
     });
-    return () => ctx.revert();
+
+    return () => mm.revert();
   }, []);
 
   return (
     <>
       <title>Deepak Gupta - Portfolio</title>
 
-      {/* Hero Section */}
-      <section className="hero hero--bold">
-        <div className="hero_glow" aria-hidden="true"></div>
-        <div className="container">
-          <div className="hero_inner">
-            <span className="hero_badge" data-aos="fade-down">
-              <span className="hero_badge_dot"></span> Open to freelance work
-            </span>
-            <h1 className="hero_headline" data-aos="fade-up">
-              I build <span className="hero_grad">web &amp; mobile apps</span><br />
-              that real people use.
-            </h1>
-            <p className="hero_sub" data-aos="fade-up" data-aos-delay="80">
-              Hi, I'm Deepak — a MERN + React Native (Expo) developer. I design, build and ship{" "}
-              <span className="hero_typed">{text}</span>
-              <span className="hero_caret">|</span>
-            </p>
-            <div className="hero_proof" data-aos="fade-up" data-aos-delay="140">
-              <span className="hero_proof_item"><b className="gold">★ 4</b> apps live on Play Store</span>
-              <span className="hero_proof_sep"></span>
-              <span className="hero_proof_item"><b>8+</b> projects delivered</span>
-              <span className="hero_proof_sep"></span>
-              <span className="hero_proof_item"><b>1yr+</b> experience</span>
-            </div>
-            <div className="hero_cta" data-aos="fade-up" data-aos-delay="200">
-              <Link to="/projects" className="btn_primary">View My Work</Link>
-              <Link to="/contact" className="btn_ghost">Hire Me <GoArrowUpRight /></Link>
-              <a href="/Deepak Gupta Resume.pdf" download className="btn_text">
-                Download CV <BiDownload />
-              </a>
-            </div>
-            <ul className="hero_social hero_social--center" data-aos="fade-up" data-aos-delay="260">
-              <li><a href="https://www.instagram.com/deepakgupta_8172/?igsh=MTQxZnZvdzYydDMwNg%3D%3D#" aria-label="Instagram"><FaInstagram /></a></li>
-              <li><a href="https://www.linkedin.com/in/deepak-gupta-633b00286/" aria-label="LinkedIn"><GrLinkedinOption /></a></li>
-              <li><a href="https://github.com/DeepakGupta4" aria-label="GitHub"><FaGithub /></a></li>
-              <li><a href="https://x.com/home" aria-label="Twitter"><FaTwitter /></a></li>
-            </ul>
-            <div className="hero_appstrip" data-aos="fade-up" data-aos-delay="320">
-              <span className="hero_appstrip_label">Live on Google Play</span>
-              <div className="hero_appstrip_icons">
-                {mobileApps.map((app) => (
-                  <a key={app.id} href={app.playstore} target="_blank" rel="noopener noreferrer" title={app.name}>
-                    <img src={app.icon} alt={app.name} loading="lazy" />
-                  </a>
-                ))}
+      {/* ===== Cinematic curtain-reveal hero ===== */}
+      <section className="reveal">
+        <div className="reveal__sticky">
+          {/* The hero revealed behind the banner (images are back) */}
+          <div className="reveal__stage">
+            <div className="reveal__glow" aria-hidden="true"></div>
+            <div className="container">
+              <div className="reveal__grid">
+                <div className="reveal__text">
+                  <span className="hero_badge">
+                    <span className="hero_badge_dot"></span> Open to freelance work
+                  </span>
+                  <h1 className="hero_headline">
+                    I build <span className="hero_grad">web &amp; mobile apps</span> that real people use.
+                  </h1>
+                  <p className="hero_sub">
+                    MERN + React Native (Expo) developer. I design, build and ship{" "}
+                    <span className="hero_typed">{text}</span>
+                    <span className="hero_caret">|</span>
+                  </p>
+                  <div className="hero_proof">
+                    <span className="hero_proof_item"><b className="gold">★ 4</b> apps live on Play Store</span>
+                    <span className="hero_proof_sep"></span>
+                    <span className="hero_proof_item"><b>8+</b> projects</span>
+                    <span className="hero_proof_sep"></span>
+                    <span className="hero_proof_item"><b>1yr+</b> experience</span>
+                  </div>
+                  <div className="hero_cta">
+                    <Link to="/projects" className="btn_primary">View My Work</Link>
+                    <Link to="/contact" className="btn_ghost">Hire Me <GoArrowUpRight /></Link>
+                    <a href="/Deepak Gupta Resume.pdf" download className="btn_text">
+                      Download CV <BiDownload />
+                    </a>
+                  </div>
+                  <ul className="hero_social hero_social--left">
+                    <li><a href="https://www.instagram.com/deepakgupta_8172/?igsh=MTQxZnZvdzYydDMwNg%3D%3D#" aria-label="Instagram"><FaInstagram /></a></li>
+                    <li><a href="https://www.linkedin.com/in/deepak-gupta-633b00286/" aria-label="LinkedIn"><GrLinkedinOption /></a></li>
+                    <li><a href="https://github.com/DeepakGupta4" aria-label="GitHub"><FaGithub /></a></li>
+                    <li><a href="https://x.com/home" aria-label="Twitter"><FaTwitter /></a></li>
+                  </ul>
+                </div>
+
+                <div className="reveal__visual">
+                  <div className="reveal__photo">
+                    <img src="/assets/c.JPG" alt="Deepak Gupta" />
+                    <div className="reveal__photo-badge">
+                      <span className="reveal__photo-badge-num">4</span>
+                      <span>Apps live on<br />Google Play</span>
+                    </div>
+                  </div>
+                  <div className="reveal__apps">
+                    {mobileApps.map((app) => (
+                      <a
+                        key={app.id}
+                        href={app.playstore}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title={app.name}
+                        className="reveal__appchip"
+                      >
+                        <img src={app.icon} alt={app.name} loading="lazy" />
+                      </a>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+
+          {/* The banner that splits open on scroll */}
+          <div className="curtain curtain--top">
+            <span className="curtain__name">DEEPAK GUPTA</span>
+          </div>
+          <div className="curtain curtain--bottom">
+            <span className="curtain__role">Full-Stack · React Native Developer</span>
+          </div>
+
+          <div className="reveal__hint">
+            <span>Scroll to enter</span>
+            <span className="reveal__hint-arrow">↓</span>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats band */}
+      <section className="statsband">
+        <div className="container">
           <div className="funfect_area flex flex-sb">
             <div className="funfect_item" data-aos="fade-right">
               <h3><AnimatedCounter end={1} suffix="+" /></h3>
