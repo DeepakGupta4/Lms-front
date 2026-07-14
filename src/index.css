@@ -7108,85 +7108,211 @@ header.sticky {
 }
 
 /* ============================================================
-   IMAGE PRODUCT CARDS (old .procard style + screenshots)
+   COMPACT PRODUCT CARDS (.pcard) — image on top, info below
+   Smaller, 3-up grid, subtle hover. Works in dark + light theme.
    ============================================================ */
 
-/* Placeholder for products without a screenshot — accent gradient + emoji */
-.procard_ph {
+.pcardgrid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.pcard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #140c1c;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.dark .pcard {
+  background: #fff;
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+}
+
+.pcard:hover {
+  transform: translateY(-6px);
+  border-color: var(--app-accent, var(--main-site-color));
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.45);
+}
+
+.dark .pcard:hover {
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.12);
+}
+
+/* Media */
+.pcard_media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #0d0813;
+}
+
+.pcard_img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.5s ease;
+}
+
+.pcard:hover .pcard_img {
+  transform: scale(1.06);
+}
+
+/* Placeholder media (no screenshot) */
+.pcard_ph {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.8rem;
+  gap: 0.5rem;
   text-align: center;
-  padding: 1.5rem;
+  padding: 1rem;
   background: linear-gradient(
     150deg,
-    color-mix(in srgb, var(--app-accent, #9500ff) 80%, #000),
-    color-mix(in srgb, var(--app-accent, #9500ff) 32%, #000)
+    color-mix(in srgb, var(--app-accent, #9500ff) 82%, #000),
+    color-mix(in srgb, var(--app-accent, #9500ff) 34%, #000)
   );
 }
 
-.procard_ph_emoji {
-  font-size: 76px;
+.pcard_ph_emoji {
+  font-size: 46px;
   line-height: 1;
-  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(0 5px 12px rgba(0, 0, 0, 0.3));
 }
 
-.procard_ph h4 {
+.pcard_ph_name {
   color: #fff;
-  font-size: 20px;
+  font-size: 13.5px;
   font-weight: 700;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.2px;
 }
 
-/* On-card status badge (dark glass — reads over any screenshot, both themes) */
-.procard_badge {
+/* Status badge over the media */
+.pcard_badge {
   position: absolute;
-  top: 2rem;
-  left: 2rem;
-  z-index: 3;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  font-size: 11px;
+  gap: 6px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.4px;
   text-transform: uppercase;
   color: #fff;
-  background: rgba(8, 5, 13, 0.82);
+  background: rgba(8, 5, 13, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.16);
-  padding: 5px 11px;
+  padding: 4px 9px;
   border-radius: 20px;
   backdrop-filter: blur(6px);
 }
 
-.procard_badge::before {
+.pcard_badge::before {
   content: "";
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--badge-dot, #27c93f);
-  box-shadow: 0 0 8px var(--badge-dot, #27c93f);
+  box-shadow: 0 0 7px var(--badge-dot, #27c93f);
 }
 
-/* Hover reveal panel: keep clear of the corner arrow + show the type line */
-.procontentbox {
-  padding-right: 3rem;
+/* Body */
+.pcard_body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.9rem 1rem 1rem;
+  flex-grow: 1;
 }
 
-.procontentbox p {
-  margin-bottom: 0;
-  opacity: 0.9;
+.pcard_name {
+  margin: 0;
+  font-size: 15.5px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #fff;
+}
+
+.dark .pcard_name {
+  color: #1a1a2e;
+}
+
+.pcard_type {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--app-accent, var(--main-site-color));
+}
+
+.dark .pcard_type {
+  color: color-mix(in srgb, var(--app-accent, var(--main-site-color)) 62%, #000);
+}
+
+.pcard_foot {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pcard_cat {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: #8a8899;
+}
+
+.dark .pcard_cat {
+  color: #9a94a8;
+}
+
+.pcard_go {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--app-accent, var(--main-site-color));
+}
+
+.dark .pcard_go {
+  color: color-mix(in srgb, var(--app-accent, var(--main-site-color)) 62%, #000);
+}
+
+.pcard_go svg {
+  transition: transform 0.3s ease;
+}
+
+.pcard:hover .pcard_go svg {
+  transform: translate(2px, -2px);
+}
+
+@media screen and (max-width: 992px) {
+  .pcardgrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media screen and (max-width: 600px) {
-  .procard_badge {
-    top: 1.4rem;
-    left: 1.4rem;
-  }
-  .procard_ph_emoji {
-    font-size: 60px;
+  .pcardgrid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
   }
 }
 

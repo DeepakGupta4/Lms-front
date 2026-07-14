@@ -268,30 +268,33 @@ export default function Home() {
             <h2>Products Built &amp; Deployed</h2>
             <p>Real, production-grade software across healthcare, AI, e-commerce, education and enterprise domains — not just landing pages.</p>
           </div>
-          <div className="projects_cards" data-aos="fade-up">
-            {products.slice(0, 4).map((p, index) => (
+          <div className="pcardgrid" data-aos="fade-up">
+            {products.slice(0, 3).map((p, index) => (
               <Link
                 to="/projects"
                 key={p.id}
-                className="procard"
+                className="pcard"
                 style={{ "--app-accent": p.accent }}
                 data-aos="fade-up"
-                data-aos-delay={(index % 2) * 100}
+                data-aos-delay={(index % 3) * 80}
               >
-                {p.image ? (
-                  <div className="proimgbox">
-                    <img src={p.image} alt={p.name} loading="lazy" />
+                <div className="pcard_media">
+                  {p.image ? (
+                    <img className="pcard_img" src={p.image} alt={p.name} loading="lazy" />
+                  ) : (
+                    <div className="pcard_ph">
+                      <span className="pcard_ph_emoji">{p.emoji}</span>
+                      <span className="pcard_ph_name">{p.name}</span>
+                    </div>
+                  )}
+                </div>
+                <div className="pcard_body">
+                  <h3 className="pcard_name">{p.name}</h3>
+                  <span className="pcard_type">{p.type}</span>
+                  <div className="pcard_foot">
+                    <span className="pcard_cat">{p.category}</span>
+                    <span className="pcard_go">View <GoArrowUpRight /></span>
                   </div>
-                ) : (
-                  <div className="proimgbox procard_ph">
-                    <span className="procard_ph_emoji">{p.emoji}</span>
-                    <h4>{p.name}</h4>
-                  </div>
-                )}
-                <div className="procontentbox">
-                  <h2>{p.name}</h2>
-                  <p>{p.type}</p>
-                  <GoArrowUpRight />
                 </div>
               </Link>
             ))}

@@ -65,11 +65,11 @@ export default function Projects() {
               ))}
             </div>
 
-            {/* ===== Product cards (image + hover reveal) ===== */}
+            {/* ===== Product cards (compact) ===== */}
             {filteredProducts.length === 0 ? (
               <h1 className="w-100 flex flex-center mt-3">No Project Found</h1>
             ) : (
-              <div className="projects_cards">
+              <div className="pcardgrid">
                 {filteredProducts.map((product, index) => {
                   const url = product.liveUrl || product.playStoreUrl || null;
                   const primary = product.status?.[0];
@@ -80,37 +80,46 @@ export default function Projects() {
                     : {};
                   return (
                     <CardTag
-                      className="procard"
+                      className="pcard"
                       key={product.id}
                       style={{ "--app-accent": product.accent }}
                       data-aos="fade-up"
-                      data-aos-delay={(index % 2) * 100}
+                      data-aos-delay={(index % 3) * 80}
                       {...linkProps}
                     >
-                      {product.image ? (
-                        <div className="proimgbox">
-                          <img src={product.image} alt={product.name} loading="lazy" />
-                        </div>
-                      ) : (
-                        <div className="proimgbox procard_ph">
-                          <span className="procard_ph_emoji">{product.emoji}</span>
-                          <h4>{product.name}</h4>
-                        </div>
-                      )}
+                      <div className="pcard_media">
+                        {product.image ? (
+                          <img
+                            className="pcard_img"
+                            src={product.image}
+                            alt={product.name}
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div className="pcard_ph">
+                            <span className="pcard_ph_emoji">{product.emoji}</span>
+                            <span className="pcard_ph_name">{product.name}</span>
+                          </div>
+                        )}
+                        {s && (
+                          <span
+                            className="pcard_badge"
+                            style={{ "--badge-dot": STATUS_DOT[s.kind] }}
+                          >
+                            {s.label}
+                          </span>
+                        )}
+                      </div>
 
-                      {s && (
-                        <span
-                          className="procard_badge"
-                          style={{ "--badge-dot": STATUS_DOT[s.kind] }}
-                        >
-                          {s.label}
-                        </span>
-                      )}
-
-                      <div className="procontentbox">
-                        <h2>{product.name}</h2>
-                        <p>{product.type}</p>
-                        <GoArrowUpRight />
+                      <div className="pcard_body">
+                        <h3 className="pcard_name">{product.name}</h3>
+                        <span className="pcard_type">{product.type}</span>
+                        <div className="pcard_foot">
+                          <span className="pcard_cat">{product.category}</span>
+                          <span className="pcard_go">
+                            {url ? "View" : "Private"} <GoArrowUpRight />
+                          </span>
+                        </div>
                       </div>
                     </CardTag>
                   );
