@@ -35,6 +35,7 @@ export const products = [
     category: "Healthcare",
     type: "Healthcare Platform · React Native + MERN",
     accent: "#1f9d8f",
+    image: "/assets/shots/vetician.jpg",
     description:
       "A complete pet healthcare and services ecosystem — a consumer app, a provider app, a responsive website and an admin dashboard. Users book pet services, schedule appointments, consult veterinarians over video and pay securely, while providers manage bookings, schedules and earnings from a dedicated dashboard.",
     features: [
@@ -48,7 +49,8 @@ export const products = [
       "Responsive Website",
     ],
     tech: ["React Native", "Expo", "React", "Node.js", "MongoDB", "Express", "Firebase", "Render"],
-    status: ["production", "playstore"],
+    status: ["live", "production", "playstore"],
+    liveUrl: "https://vetician.com",
     playStoreUrl:
       "https://play.google.com/store/apps/details?id=com.dkg12.vetician&hl=en_IN",
   },
