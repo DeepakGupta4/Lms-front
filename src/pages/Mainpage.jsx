@@ -1,15 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AnimatedCounter from "../components/AnimatedCounter";
 import { mobileApps } from "../data/apps";
+import { products } from "../data/products";
 import { BiDownload } from "react-icons/bi";
 import { FaGithub, FaInstagram, FaTwitter } from "react-icons/fa6";
 import { GrLinkedinOption } from "react-icons/gr";
 import { GoArrowUpRight } from "react-icons/go";
 import { LuMedal } from "react-icons/lu";
 import { PiGraduationCap } from "react-icons/pi";
+
+// Typing-animation phrases — module scope keeps the reference stable across renders.
+const textArray = ["web apps.", "React Native apps.", "full-stack products.", "delightful user experiences."];
 
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -35,57 +39,7 @@ export default function Home() {
     }
   ];
 
-  const [loading, setLoading] = useState(true);
-  const [allProjects, setAllProjects] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [filteredProjects, setFilteredProjects] = useState([]);
-
-  const dummyProjects = [
-    {
-      _id: "1",
-      title: "Personal Portfolio Website",
-      images: ["./assets/Portfolio.png"],
-      category: "Website Development",
-    },
-    {
-      _id: "2",
-      title: "My Friend Shop Website",
-      images: ["./assets/friendshop.png"],
-      category: "Website Development",
-    },
-    {
-      _id: "3",
-      title: "Design System for Dashboard",
-      images: ["./assets/desindashboard.png"],
-      category: "Design System",
-    },
-    {
-      _id: "4",
-      title: "Learning Management System",
-      images: ["./assets/lms.png"],
-      category: "Website Development",
-    },
-  ];
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setAllProjects(dummyProjects);
-      setFilteredProjects(dummyProjects);
-      setLoading(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    if (selectedCategory === "All") {
-      setFilteredProjects(allProjects);
-    } else {
-      setFilteredProjects(allProjects.filter((pro) => pro.category === selectedCategory));
-    }
-  }, [selectedCategory, allProjects]);
-
   // Typing animation
-  const textArray = ["web apps.", "React Native apps.", "full-stack products.", "delightful user experiences."];
   const [text, setText] = useState('');
   const [textIndex, setTextIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
@@ -126,30 +80,42 @@ export default function Home() {
 
   // Cinematic curtain reveal: the banner splits open on scroll to reveal the hero.
   // Desktop only (pinned scrub); on mobile the hero just shows normally.
-  useEffect(() => {
+  //
+  // useLayoutEffect + gsap.context (scoped to the section) is important: GSAP's
+  // `pin` wraps the section in a pin-spacer, re-parenting the node. The context's
+  // cleanup runs synchronously (layout phase) BEFORE React removes this route from
+  // the DOM, so the pin is torn down first. Without it, React hits "removeChild is
+  // not a child of this node" on navigation and the hero stays stuck over every
+  // other page.
+  const revealRef = useRef(null);
+  useLayoutEffect(() => {
+    const el = revealRef.current;
+    if (!el) return;
     gsap.registerPlugin(ScrollTrigger);
-    const mm = gsap.matchMedia();
 
-    mm.add("(min-width: 768px)", () => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".reveal",
-          start: "top top",
-          end: "+=130%",
-          scrub: 1,
-          pin: true,
-          anticipatePin: 1,
-        },
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+      mm.add("(min-width: 768px)", () => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: el,
+            start: "top top",
+            end: "+=130%",
+            scrub: 1,
+            pin: el,
+            anticipatePin: 1,
+          },
+        });
+
+        tl.to(".reveal__hint", { opacity: 0, duration: 0.15 }, 0)
+          .to(".curtain--top", { yPercent: -100, ease: "power2.inOut", duration: 0.6 }, 0)
+          .to(".curtain--bottom", { yPercent: 100, ease: "power2.inOut", duration: 0.6 }, 0)
+          .fromTo(".reveal__stage", { scale: 1.12 }, { scale: 1, ease: "none", duration: 0.6 }, 0)
+          .to({}, { duration: 0.4 }); // hold fully-open before the section ends
       });
+    }, el);
 
-      tl.to(".reveal__hint", { opacity: 0, duration: 0.15 }, 0)
-        .to(".curtain--top", { yPercent: -100, ease: "power2.inOut", duration: 0.6 }, 0)
-        .to(".curtain--bottom", { yPercent: 100, ease: "power2.inOut", duration: 0.6 }, 0)
-        .fromTo(".reveal__stage", { scale: 1.12 }, { scale: 1, ease: "none", duration: 0.6 }, 0)
-        .to({}, { duration: 0.4 }); // hold fully-open before the section ends
-    });
-
-    return () => mm.revert();
+    return () => ctx.revert();
   }, []);
 
   return (
@@ -157,7 +123,7 @@ export default function Home() {
       <title>Deepak Gupta - Portfolio</title>
 
       {/* ===== Cinematic curtain-reveal hero ===== */}
-      <section className="reveal">
+      <section className="reveal" ref={revealRef}>
         <div className="reveal__sticky">
           {/* The hero revealed behind the banner (images are back) */}
           <div className="reveal__stage">
@@ -179,9 +145,9 @@ export default function Home() {
                   <div className="hero_proof">
                     <span className="hero_proof_item"><b className="gold">★ 4</b> apps live on Play Store</span>
                     <span className="hero_proof_sep"></span>
-                    <span className="hero_proof_item"><b>8+</b> projects</span>
+                    <span className="hero_proof_item"><b>10+</b> products built</span>
                     <span className="hero_proof_sep"></span>
-                    <span className="hero_proof_item"><b>1yr+</b> experience</span>
+                    <span className="hero_proof_item"><b>5+</b> live websites</span>
                   </div>
                   <div className="hero_cta">
                     <Link to="/projects" className="btn_primary">View My Work</Link>
@@ -191,10 +157,10 @@ export default function Home() {
                     </a>
                   </div>
                   <ul className="hero_social hero_social--left">
-                    <li><a href="https://www.instagram.com/deepakgupta_8172/?igsh=MTQxZnZvdzYydDMwNg%3D%3D#" aria-label="Instagram"><FaInstagram /></a></li>
-                    <li><a href="https://www.linkedin.com/in/deepak-gupta-633b00286/" aria-label="LinkedIn"><GrLinkedinOption /></a></li>
-                    <li><a href="https://github.com/DeepakGupta4" aria-label="GitHub"><FaGithub /></a></li>
-                    <li><a href="https://x.com/home" aria-label="Twitter"><FaTwitter /></a></li>
+                    <li><a href="https://www.instagram.com/deepakgupta_8172/?igsh=MTQxZnZvdzYydDMwNg%3D%3D#" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><FaInstagram /></a></li>
+                    <li><a href="https://www.linkedin.com/in/deepak-gupta-633b00286/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><GrLinkedinOption /></a></li>
+                    <li><a href="https://github.com/DeepakGupta4" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><FaGithub /></a></li>
+                    <li><a href="https://x.com/home" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><FaTwitter /></a></li>
                   </ul>
                 </div>
 
@@ -245,20 +211,20 @@ export default function Home() {
         <div className="container">
           <div className="funfect_area flex flex-sb">
             <div className="funfect_item" data-aos="fade-right">
-              <h3><AnimatedCounter end={1} suffix="+" /></h3>
-              <h4>year of<br />Experience</h4>
+              <h3><AnimatedCounter end={12} suffix="+" /></h3>
+              <h4>Products<br />Built</h4>
             </div>
             <div className="funfect_item" data-aos="fade-up">
               <h3><AnimatedCounter end={8} suffix="+" /></h3>
-              <h4>projects<br />completed</h4>
+              <h4>Web<br />Applications</h4>
             </div>
             <div className="funfect_item" data-aos="fade-up">
-              <h3><AnimatedCounter end={4} suffix="+" /></h3>
-              <h4>Apps on<br />Store</h4>
+              <h3><AnimatedCounter end={4} /></h3>
+              <h4>Mobile<br />Apps</h4>
             </div>
             <div className="funfect_item" data-aos="fade-left">
-              <h3><AnimatedCounter end={2} suffix="+" /></h3>
-              <h4>Happy<br />Customers</h4>
+              <h3><AnimatedCounter end={15} suffix="+" /></h3>
+              <h4>Technologies<br />Mastered</h4>
             </div>
           </div>
         </div>
@@ -266,7 +232,7 @@ export default function Home() {
 
       {/* Services Section */}
       <section className="services">
-        <div className="services">
+        <div>
           <div className="container">
             <div className="services_titles">
               <h2>MY Quality Services</h2>
@@ -295,36 +261,45 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Projects Section */}
+      {/* Featured Products preview */}
       <section className="projects">
         <div className="container">
           <div className="project_titles">
-            <h2>My Recent Works</h2>
-            <p>We put your ideas and thus your wishes in the form of a unique web project that inspires you and your customers.</p>
-          </div>
-          <div className="project_buttons">
-            <button className={selectedCategory === 'All' ? 'active' : ''} onClick={() => setSelectedCategory('All')}>All</button>
-            <button className={selectedCategory === 'Website Development' ? 'active' : ''} onClick={() => setSelectedCategory('Website Development')}>Website</button>
-            <button className={selectedCategory === 'Design System' ? 'active' : ''} onClick={() => setSelectedCategory('Design System')}>Design</button>
+            <h2>Products Built &amp; Deployed</h2>
+            <p>Real, production-grade software across healthcare, AI, e-commerce, education and enterprise domains — not just landing pages.</p>
           </div>
           <div className="projects_cards" data-aos="fade-up">
-            {loading ? (
-              <div className="flex flex-center wh_100"></div>
-            ) : filteredProjects.length === 0 ? (
-              <h1 className="w-100 flex flex-center mt-3">No Project Found</h1>
-            ) : (
-              filteredProjects.slice(0, 4).map((pro) => (
-                <Link to="/projects" key={pro._id} className="procard">
+            {products.slice(0, 4).map((p, index) => (
+              <Link
+                to="/projects"
+                key={p.id}
+                className="procard"
+                style={{ "--app-accent": p.accent }}
+                data-aos="fade-up"
+                data-aos-delay={(index % 2) * 100}
+              >
+                {p.image ? (
                   <div className="proimgbox">
-                    <img src={pro.images[0]} alt={pro.title} />
+                    <img src={p.image} alt={p.name} loading="lazy" />
                   </div>
-                  <div className="procontentbox">
-                    <h2>{pro.title}</h2>
-                    <GoArrowUpRight />
+                ) : (
+                  <div className="proimgbox procard_ph">
+                    <span className="procard_ph_emoji">{p.emoji}</span>
+                    <h4>{p.name}</h4>
                   </div>
-                </Link>
-              ))
-            )}
+                )}
+                <div className="procontentbox">
+                  <h2>{p.name}</h2>
+                  <p>{p.type}</p>
+                  <GoArrowUpRight />
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className="flex flex-center home_prod_more">
+            <Link to="/projects" className="btn_primary">
+              View All Products <GoArrowUpRight />
+            </Link>
           </div>
         </div>
       </section>

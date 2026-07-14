@@ -6645,3 +6645,548 @@ header.sticky {
     text-align: center;
   }
 }
+
+/* ============================================================
+   PRODUCTS BUILT & DEPLOYED — product showcase
+   (default = dark premium theme, .dark = light theme)
+   ============================================================ */
+
+/* Positioning badges row */
+.showcase_badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.7rem;
+  max-width: 900px;
+  margin: 0 auto 2.5rem;
+}
+
+.showcase_badge {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #d7d2e6;
+  background: rgba(149, 0, 255, 0.10);
+  border: 1px solid rgba(149, 0, 255, 0.28);
+  padding: 8px 16px;
+  border-radius: 30px;
+  white-space: nowrap;
+}
+
+.dark .showcase_badge {
+  color: #4a2170;
+  background: rgba(149, 0, 255, 0.06);
+  border-color: rgba(149, 0, 255, 0.20);
+}
+
+/* Filter tabs — a touch smaller than the home page ones */
+.showcase_filter {
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.showcase_filter button {
+  font-size: 16px;
+  padding: 0.7rem 1.4rem;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+/* Product cards grid */
+.prodgrid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.6rem;
+}
+
+.prodcard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #140c1c;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  padding: 1.8rem;
+  overflow: hidden;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.dark .prodcard {
+  background: #fff;
+  border-color: rgba(0, 0, 0, 0.07);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.prodcard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--app-accent, var(--main-site-color));
+  opacity: 0.9;
+}
+
+.prodcard:hover {
+  transform: translateY(-8px);
+  border-color: var(--app-accent, var(--main-site-color));
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+.dark .prodcard:hover {
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.12);
+}
+
+.prodcard_top {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.prodcard_emoji {
+  flex-shrink: 0;
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  font-size: 30px;
+  border-radius: 15px;
+  background: color-mix(in srgb, var(--app-accent, #9500ff) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--app-accent, #9500ff) 35%, transparent);
+}
+
+.prodcard_titles {
+  min-width: 0;
+}
+
+.prodcard_name {
+  font-size: 19px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 3px;
+  line-height: 1.25;
+}
+
+.dark .prodcard_name {
+  color: #1a1a2e;
+}
+
+.prodcard_type {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--app-accent, var(--main-site-color));
+}
+
+/* Status pills */
+.prodcard_status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 1rem;
+}
+
+.status_pill {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.status_pill::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status_pill--live { color: #27c93f; background: rgba(39, 201, 63, 0.12); border-color: rgba(39, 201, 63, 0.35); }
+.status_pill--production { color: #4facfe; background: rgba(79, 172, 254, 0.12); border-color: rgba(79, 172, 254, 0.35); }
+.status_pill--playstore { color: #23c16b; background: rgba(35, 193, 107, 0.12); border-color: rgba(35, 193, 107, 0.35); }
+.status_pill--website { color: #38bdf8; background: rgba(56, 189, 248, 0.12); border-color: rgba(56, 189, 248, 0.35); }
+.status_pill--enterprise { color: #a78bfa; background: rgba(167, 139, 250, 0.12); border-color: rgba(167, 139, 250, 0.35); }
+.status_pill--ai { color: #e879f9; background: rgba(232, 121, 249, 0.12); border-color: rgba(232, 121, 249, 0.35); }
+.status_pill--private { color: #f5b301; background: rgba(245, 179, 1, 0.12); border-color: rgba(245, 179, 1, 0.35); }
+
+.prodcard_desc {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #a2a0b0;
+  margin-bottom: 1.2rem;
+}
+
+.dark .prodcard_desc {
+  color: #555;
+}
+
+/* Feature / tech / role chip groups */
+.prodcard_section {
+  margin-bottom: 1.1rem;
+}
+
+.prodcard_label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #7a7889;
+  margin-bottom: 0.6rem;
+}
+
+.dark .prodcard_label {
+  color: #9a94a8;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.chip {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 11px;
+  border-radius: 8px;
+  line-height: 1.3;
+}
+
+.chip--feature {
+  color: #cfcbdd;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dark .chip--feature {
+  color: #444;
+  background: #f3f0f9;
+  border-color: rgba(0, 0, 0, 0.05);
+}
+
+.chip--tech {
+  color: #4facfe;
+  background: rgba(79, 172, 254, 0.1);
+  border: 1px solid rgba(79, 172, 254, 0.2);
+  font-weight: 600;
+}
+
+.chip--role {
+  color: var(--app-accent, var(--main-site-color));
+  background: color-mix(in srgb, var(--app-accent, #9500ff) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--app-accent, #9500ff) 28%, transparent);
+  font-weight: 600;
+}
+
+/* Card CTA */
+.prodcard_cta {
+  margin-top: auto;
+  padding-top: 0.4rem;
+}
+
+.demo_btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  padding: 11px 22px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--app-accent, var(--main-site-color)), #2a1454);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.demo_btn svg {
+  transition: transform 0.3s ease;
+}
+
+.prodcard:hover .demo_btn {
+  box-shadow: 0 10px 26px color-mix(in srgb, var(--app-accent, #9500ff) 45%, transparent);
+}
+
+.prodcard:hover .demo_btn svg {
+  transform: translate(2px, -2px);
+}
+
+.private_note {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #8a8899;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed rgba(255, 255, 255, 0.14);
+  padding: 9px 14px;
+  border-radius: 10px;
+}
+
+.dark .private_note {
+  color: #777;
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.showcase_mobile_title {
+  margin-top: 5rem;
+}
+
+/* Responsive */
+@media screen and (max-width: 992px) {
+  .prodgrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .prodcard {
+    padding: 1.4rem;
+  }
+  .prodcard_emoji {
+    width: 50px;
+    height: 50px;
+    font-size: 26px;
+  }
+  .prodcard_name {
+    font-size: 17px;
+  }
+  .showcase_filter button {
+    font-size: 14px;
+    padding: 0.6rem 1.1rem;
+  }
+  .showcase_badge {
+    font-size: 12px;
+    padding: 7px 13px;
+  }
+}
+
+/* Home page — featured products teaser */
+.home_prodgrid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.home_prodcard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.3rem 1.5rem;
+  border-radius: 16px;
+  background: #140c1c;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  text-decoration: none;
+  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.dark .home_prodcard {
+  background: #fff;
+  border-color: rgba(0, 0, 0, 0.07);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.home_prodcard:hover {
+  transform: translateY(-6px);
+  border-color: var(--app-accent, var(--main-site-color));
+  box-shadow: 0 20px 46px rgba(0, 0, 0, 0.4);
+}
+
+.dark .home_prodcard:hover {
+  box-shadow: 0 20px 46px rgba(0, 0, 0, 0.1);
+}
+
+.home_prod_emoji {
+  flex-shrink: 0;
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--app-accent, #9500ff) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--app-accent, #9500ff) 35%, transparent);
+}
+
+.home_prod_info {
+  min-width: 0;
+  flex-grow: 1;
+}
+
+.home_prod_info h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 3px;
+  line-height: 1.25;
+}
+
+.dark .home_prod_info h3 {
+  color: #1a1a2e;
+}
+
+.home_prod_type {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--app-accent, var(--main-site-color));
+}
+
+.home_prodcard > svg {
+  flex-shrink: 0;
+  font-size: 22px;
+  color: var(--app-accent, var(--main-site-color));
+  transition: transform 0.3s ease;
+}
+
+.home_prodcard:hover > svg {
+  transform: translate(3px, -3px);
+}
+
+.home_prod_more {
+  margin-top: 2.5rem;
+}
+
+@media screen and (max-width: 768px) {
+  .home_prodgrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
+   LIGHT-THEME (.dark) CONTRAST FIXES
+   The bright accents above are tuned for the dark card; on the
+   white (.dark) card they need darker, AA-compliant variants.
+   ============================================================ */
+
+/* Status pills — darker text (the ::before dot inherits currentColor) */
+.dark .status_pill--live { color: #0e7a34; }
+.dark .status_pill--production { color: #1b6fc2; }
+.dark .status_pill--playstore { color: #0b7a41; }
+.dark .status_pill--website { color: #0e73a8; }
+.dark .status_pill--enterprise { color: #6a37cc; }
+.dark .status_pill--ai { color: #9a1aad; }
+.dark .status_pill--private { color: #8a6200; }
+
+/* Tech chips */
+.dark .chip--tech {
+  color: #1b6fc2;
+  background: rgba(27, 111, 194, 0.08);
+  border-color: rgba(27, 111, 194, 0.2);
+}
+
+.dark .appcard_tech {
+  color: #1b6fc2;
+  background: rgba(27, 111, 194, 0.08);
+}
+
+/* Per-card accent subtitles — darken the injected --app-accent on white */
+.dark .prodcard_type,
+.dark .home_prod_type,
+.dark .appcard_dev {
+  color: color-mix(in srgb, var(--app-accent, var(--main-site-color)) 62%, #000);
+}
+
+/* Hero proof separator dots */
+.dark .hero_proof_sep {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================================
+   IMAGE PRODUCT CARDS (old .procard style + screenshots)
+   ============================================================ */
+
+/* Placeholder for products without a screenshot — accent gradient + emoji */
+.procard_ph {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  text-align: center;
+  padding: 1.5rem;
+  background: linear-gradient(
+    150deg,
+    color-mix(in srgb, var(--app-accent, #9500ff) 80%, #000),
+    color-mix(in srgb, var(--app-accent, #9500ff) 32%, #000)
+  );
+}
+
+.procard_ph_emoji {
+  font-size: 76px;
+  line-height: 1;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.3));
+}
+
+.procard_ph h4 {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+/* On-card status badge (dark glass — reads over any screenshot, both themes) */
+.procard_badge {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(8, 5, 13, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 5px 11px;
+  border-radius: 20px;
+  backdrop-filter: blur(6px);
+}
+
+.procard_badge::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--badge-dot, #27c93f);
+  box-shadow: 0 0 8px var(--badge-dot, #27c93f);
+}
+
+/* Hover reveal panel: keep clear of the corner arrow + show the type line */
+.procontentbox {
+  padding-right: 3rem;
+}
+
+.procontentbox p {
+  margin-bottom: 0;
+  opacity: 0.9;
+}
+
+@media screen and (max-width: 600px) {
+  .procard_badge {
+    top: 1.4rem;
+    left: 1.4rem;
+  }
+  .procard_ph_emoji {
+    font-size: 60px;
+  }
+}
+

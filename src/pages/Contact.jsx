@@ -44,14 +44,14 @@ export default function Contact() {
       setCompany("");
       setPhone("");
       setCountry("");
-      setProject("");
+      setProject([]);
       setPrice("");
       setDescription("");
     } catch (error) {
       if (error.response) {
         console.error("server error", error.response.data);
       } else if (error.request) {
-        console.error("Network error", error.response.data);
+        console.error("Network error", error.request);
       } else {
         console.error("error", error.message);
       }

@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import Spinner from "../components/Spinner";
-import { Link } from "react-router-dom";
-import axios from "axios";
-// import useFetchData from "@/hooks/useFetchData";
 
-// import Head from "next/head";
-
-export default function gallery() {
+export default function Gallery() {
   const [alldata, setAlldata] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -37,44 +32,44 @@ export default function gallery() {
             category: "Urban",
           },
           {
-            _id: "3",
+            _id: "4",
             title: "Photo",
-            slug: "city-lights",
+            slug: "city-lights-2",
             images: ["/assets/h.JPG"],
             category: "Urban",
           },
           {
-            _id: "3",
+            _id: "5",
             title: "Photo",
-            slug: "city-lights",
+            slug: "city-lights-3",
             images: ["/assets/i.JPG"],
             category: "Urban",
           },
           {
-            _id: "3",
+            _id: "6",
             title: "Photo",
-            slug: "city-lights",
+            slug: "city-lights-4",
             images: ["/assets/j.JPG"],
             category: "Urban",
           },
           {
-            _id: "3",
+            _id: "7",
             title: "Photo",
-            slug: "city-lights",
+            slug: "city-lights-5",
             images: ["/assets/d.JPG"],
             category: "Urban",
           },
           {
-            _id: "3",
+            _id: "8",
             title: "Photo",
-            slug: "city-lights",
+            slug: "city-lights-6",
             images: ["/assets/newimg2.jpg"],
             category: "Urban",
           },
           {
-            _id: "3",
+            _id: "9",
             title: "Photo",
-            slug: "city-lights",
+            slug: "city-lights-7",
             images: ["/assets/newimg3.jpg"],
             category: "Urban",
           },

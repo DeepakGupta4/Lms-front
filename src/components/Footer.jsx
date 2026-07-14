@@ -21,10 +21,10 @@ export default function Footer() {
         </ul>
 
         <ul className="hero_social">
-          <li><a href="https://x.com/home"><FaTwitter /></a></li>
-          <li><a href="https://www.instagram.com/deepakgupta_8172/?igsh=MTQxZnZvdzYydDMwNg%3D%3D#"><FaInstagram /></a></li>
+          <li><a href="https://x.com/home" target="_blank" rel="noopener noreferrer"><FaTwitter /></a></li>
+          <li><a href="https://www.instagram.com/deepakgupta_8172/?igsh=MTQxZnZvdzYydDMwNg%3D%3D#" target="_blank" rel="noopener noreferrer"><FaInstagram /></a></li>
           <li><a href="https://www.linkedin.com/in/deepak-gupta-633b00286/" target="_blank" rel="noopener noreferrer"><GrLinkedinOption /></a></li>
-          <li><a href="https://github.com/DeepakGupta4"><FaGithub /></a></li>
+          <li><a href="https://github.com/DeepakGupta4" target="_blank" rel="noopener noreferrer"><FaGithub /></a></li>
         </ul>
 
         <div className="copyrights">

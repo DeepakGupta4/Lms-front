@@ -37,7 +37,7 @@ const AdminHeader = () => {
         </div>
       </header>
 
-      <Sidebar isOpen={sidebarOpen} />
+      <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
     </>
   );
 };
